@@ -3,12 +3,15 @@
 
 #include <sys/time.h>
 #include <time.h>
+#include <string.h>
 
 #ifndef SIZE
+// #define SIZE 1000
 #error "Where is DSIZE=..., Billy?"
 #endif
 
 #ifndef SORT
+// #define SORT 0
 #error "Where is DSORT=..., Billy?"
 #endif
 
@@ -36,8 +39,8 @@ void bubble_sort_1(int array[], size_t len)
         }
     }
 }
-/*
-void bubble_sort_2(int *array, int len)
+
+void bubble_sort_2(int *array, size_t len)
 {
     for (size_t i = 0; i < len - 1; i++)
     {
@@ -52,14 +55,15 @@ void bubble_sort_2(int *array, int len)
         }
     }
 }
-void bubble_sort_3(int *array, int len)
+
+void bubble_sort_3(int *array, size_t len)
 {
     int *ptr;
     int temp;
-    for (int i = 0; i < len - 1; i++)
+    for (size_t i = 0; i < len - 1; i++)
     {
         ptr = array;
-        for (int j = 0; j < len - i - 1; j++)
+        for (size_t j = 0; j < len - i - 1; j++)
         {
             if (*ptr > *(ptr + 1))
             {
@@ -73,47 +77,37 @@ void bubble_sort_3(int *array, int len)
     }
 }
 
-*/
-unsigned long long milliseconds_now(void)
-{
-    struct timeval val;
-    if (gettimeofday(&val, NULL))
-        return (unsigned long long)-1;
-    return val.tv_sec * 1000ULL + val.tv_usec / 1000ULL;
-}
-
 int main(void)
 {
     int array[SIZE];
-    unsigned long long start, end;
+    struct timespec start, end;
+    double total;
 
     generate_array(array, SIZE);
 
     if (SORT == 0)
     {
-        start = milliseconds_now();
+        clock_gettime(CLOCK_REALTIME, &start);
         bubble_sort_1(array, SIZE);
-        end = milliseconds_now();
+        clock_gettime(CLOCK_REALTIME, &end);
     }
-    /*
-        if (SORT == 1)
-        {
-            start = milliseconds_now();
-            bubble_sort_2(array, SIZE);
-            end = milliseconds_now();
-        }
-
-        if (SORT == 2)
-        {
-            start = milliseconds_now();
-            bubble_sort_3(array, SIZE);
-            end = milliseconds_now();
-        }
-        */
+    else if (SORT == 1)
+    {
+        clock_gettime(CLOCK_REALTIME, &start);
+        bubble_sort_2(array, SIZE);
+        clock_gettime(CLOCK_REALTIME, &end);
+    }
+    else if (SORT == 2)
+    {
+        clock_gettime(CLOCK_REALTIME, &start);
+        bubble_sort_3(array, SIZE);
+        clock_gettime(CLOCK_REALTIME, &end);
+    }
 
     array[0] = array[1];
     array[1] = 1234;
 
-    printf("%lld\n", end - start);
+    total = (end.tv_sec - start.tv_sec) * 1e9 + (end.tv_nsec - start.tv_nsec);
+    printf("Total = %.2f\n", total);
     return 0;
 }

@@ -20,4 +20,4 @@ else
 fi
 
 # Компиляция
-gcc -std=c99 -Wall -O0 -Wvla -Werror -Wpedantic -Wextra -DSIZE="$size" -DSORT="$sort" -lm -lrt ./*.c -o apps/app_"$size"_"$method".exe
+gcc -std=c99 -Wall -O0 -Wvla -Werror -Wpedantic -Wextra -DSIZE="$size" -DSORT="$sort" -lm ./*.c -o apps/app_"$size"_"$method".exe

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 path_to_script=$(dirname "$(readlink -f "$0")")
-path="$path_to_script"/../apps
+path_to_apps="$path_to_script"/../apps
 
-rm -f "$path"/*.o
-rm -f "$path"/*.exe
-rm -f "$path"/*temp.txt*
+rm -f "$path_to_apps"/*.o
+rm -f "$path_to_apps"/*.exe
+rm -f "$path_to_apps"/*temp.txt*
 
 exit 0

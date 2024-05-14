@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Инициализация переменных
-SIZES="1000"
-SORTS="1"
+SIZES="1000 2000 3000 4000 5000 6000 7000 8000 9000 10000 "
+SORTS="0 1 2"
 path_to_script=$(dirname "$(readlink -f "$0")")
 
 # Проверка на существование переменной
-if [ ! -d "apps" ]; then
+if [[ ! -d "apps" ]]; then
     mkdir "apps"
 else
-    rm apps/*.exe
+    rm -rf "${path_to_script}/apps/*.exe"
 fi
 
 # Запуск скрипта build_app.sh с перебором параметров
