@@ -1,21 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <sys/time.h>
 #include <time.h>
 #include <string.h>
 #include <math.h>
-
+#define SUCCESS_OUTPUT 0
 #define MIN_ITERATIONS 20
-#define MAX_ITERATIONS 1000
+#define MAX_ITERATIONS 2000
 
 #ifndef SIZE
-// #define SIZE 1000
 #error "Where is DSIZE=..., Billy?"
 #endif
 
 #ifndef SORT
-// #define SORT 0
 #error "Where is DSORT=..., Billy?"
 #endif
 
@@ -81,16 +78,46 @@ void bubble_sort_3(int *array, size_t len)
     }
 }
 
+double sum_time(double time_array[], size_t count)
+{
+    double sum = 0;
+    for (size_t i = 0; i < count; i++)
+    {
+        sum += time_array[i];
+    }
+    return sum;
+}
+
+int calc_rse(double time_array[], size_t count, double *rse)
+{
+    double t_avg, dispersion = 0;
+    if (count <= 1)
+        return -1;
+    t_avg = sum_time(time_array, count) / count;
+
+    for (size_t i = 0; i < count; i++)
+    {
+        dispersion += pow((time_array[i] - t_avg), 2);
+    }
+    dispersion /= (count - 1);
+    double standard_deviation = sqrt(dispersion);
+    double std_error = standard_deviation / sqrt(count);
+    *rse = std_error * 100 / t_avg;
+    return SUCCESS_OUTPUT;
+}
+
 int main(void)
 {
     int array[SIZE];
+    double time_array[SIZE];
     struct timespec start, end;
-    double time, RSE, t_avg, t_sum = 0, dispersion = 0;
+    double time, rse = 100;
     int count = 0;
     generate_array(array, SIZE);
 
-    while (count < MAX_ITERATIONS)
+    while ((count < MAX_ITERATIONS) && (rse > 1 || count < MIN_ITERATIONS))
     {
+        generate_array(array, SIZE);
         if (SORT == 0)
         {
             clock_gettime(CLOCK_REALTIME, &start);
@@ -111,19 +138,10 @@ int main(void)
         }
         count++;
         time = (double)((end.tv_sec - start.tv_sec) * 1e9 + (end.tv_nsec - start.tv_nsec));
-        t_sum += time;
-        t_avg = t_sum / count;
-        dispersion += pow((time - t_avg), 2);
-
-        RSE = sqrt(dispersion) * 100 / (sqrt(count * (count - 1)) * t_avg);
-        printf("%f\n", RSE);
-
-        if (RSE < 1 && count > MIN_ITERATIONS)
-            break;
+        time_array[count] = time;
+        calc_rse(time_array, count, &rse);
+        printf("%f\n", time);
     }
-    printf("%d %.2f, %d, %f\n", SIZE, t_avg, count, RSE);
-    array[0] = array[1];
-    array[1] = 1234;
 
-    return 0;
+    return SUCCESS_OUTPUT;
 }

@@ -19,5 +19,5 @@ else
     method="sort_3"
 fi
 
-gcc -std=c99 -Wall -O0 -Wvla -Werror -Wpedantic -Wextra -DSIZE="$size" -DSORT="$sort" -lm internal_sort.c -o apps/app_internal_"$size"_"$method".exe
-gcc -std=c99 -Wall -O0 -Wvla -Werror -Wpedantic -Wextra -DSIZE="$size" -DSORT="$sort" -lm external_sort.c -o apps/app_external_"$size"_"$method".exe
+gcc -std=gnu99 -Wall -O0 -Wvla -Werror -Wpedantic -Wextra -DSIZE="$size" -DSORT="$sort" internal_sort.c -o apps/app_internal_"$size"_"$method".exe -lm
+gcc -std=gnu99 -Wall -O0 -Wvla -Werror -Wpedantic  -Wextra -DSIZE="$size" -DSORT="$sort" external_sort.c -o apps/app_external_"$size"_"$method".exe -lm

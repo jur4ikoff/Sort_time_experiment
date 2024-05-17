@@ -5,8 +5,8 @@
 #include <time.h>
 #include <string.h>
 
+#define SUCCESS_OUTPUT 0
 #ifndef SIZE
-// #define SIZE 1000
 #error "Where is DSIZE=..., Billy?"
 #endif
 
@@ -81,7 +81,7 @@ int main(void)
 {
     int array[SIZE];
     struct timespec start, end;
-    double total;
+    double time;
 
     generate_array(array, SIZE);
 
@@ -104,10 +104,7 @@ int main(void)
         clock_gettime(CLOCK_REALTIME, &end);
     }
 
-    array[0] = array[1];
-    array[1] = 1234;
-
-    total = (end.tv_sec - start.tv_sec) * 1e9 + (end.tv_nsec - start.tv_nsec);
-    printf("Total = %.2f\n", total);
-    return 0;
+    time = (end.tv_sec - start.tv_sec) * 1e9 + (end.tv_nsec - start.tv_nsec);
+    printf("%f\n", time);
+    return SUCCESS_OUTPUT;
 }

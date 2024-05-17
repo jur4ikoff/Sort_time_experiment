@@ -1,6 +1,6 @@
 #!/bin/bash
 # Инициализация переменных
-SIZES="1000 2000 3000 4000 5000 6000 7000 8000 9000 10000 "
+SIZES="1000 3000"
 SORTS="0 1 2"
 path_to_script=$(dirname "$(readlink -f "$0")")
 
@@ -8,15 +8,13 @@ path_to_script=$(dirname "$(readlink -f "$0")")
 if [[ ! -d "${path_to_script}/apps" ]]; then
     mkdir "${path_to_script}/apps"
 else
-    rm -rf "${path_to_script}/apps/*.exe"
+    rm -rf "${path_to_script}"/apps/*.exe
 fi
 
 # Запуск скрипта build_app.sh с перебором параметров
 for size in $SIZES; do
     for sort in $SORTS; do
+        echo -n -e "compile size: $size sort type: $sort \r"
         "${path_to_script}/scripts/build_app.sh" "$size" "$sort"
     done
 done
-
-
-

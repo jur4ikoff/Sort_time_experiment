@@ -9,3 +9,4 @@ test*.txt
 **/temp.txt
 test*.txt
 *gcov
+data/

@@ -7,12 +7,19 @@ if [[ ! -d "${path_to_script}/data" ]]; then
     mkdir "${path_to_script}/data"
 fi
 
-echo "${path_to_script}/apps/"
-
-for app in ${path_to_script}/apps/*.exe; do
+for app in "$path_to_script"/apps/*.exe; do
     base=$(basename "$app")
-    experiment=$(echo $base | sed 's/app_\(.*\).exe/\1/')
-    echo $experiment
-    ./"$app"
-    exit
+    experiment=${base#app_}
+    experiment=${experiment%.exe}
+    if [[ $experiment == internal* ]]; then
+        "$app" >>"${path_to_script}/data/$experiment.txt"
+    elif [[ $experiment == external* ]]; then
+        # Формирование файла с временами для внутреннего эксперемента
+        # Пробегаемся в цикле, пока RSE не будет меньше 1
+        res=1
+        while [ "$res" != 0 ]; do
+            "$app" >>"${path_to_script}/data/$experiment.txt"
+            res=$(python3 "${path_to_script}/"calculate_external_rse.py "${path_to_script}/data/$experiment.txt")
+        done
+    fi
 done
