@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Инициализация переменных
 SIZES="1000 2000 3000 4000 5000 6000 7000 8000 9000 10000 "
 SORTS="0 1 2"
@@ -18,3 +17,6 @@ for size in $SIZES; do
         "${path_to_script}/scripts/build_app.sh" "$size" "$sort"
     done
 done
+
+
+

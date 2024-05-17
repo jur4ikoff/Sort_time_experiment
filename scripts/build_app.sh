@@ -19,5 +19,5 @@ else
     method="sort_3"
 fi
 
-# Компиляция
-gcc -std=c99 -Wall -O0 -Wvla -Werror -Wpedantic -Wextra -DSIZE="$size" -DSORT="$sort" -lm ./*.c -o apps/app_"$size"_"$method".exe
+gcc -std=c99 -Wall -O0 -Wvla -Werror -Wpedantic -Wextra -DSIZE="$size" -DSORT="$sort" -lm internal_sort.c -o apps/app_internal_"$size"_"$method".exe
+gcc -std=c99 -Wall -O0 -Wvla -Werror -Wpedantic -Wextra -DSIZE="$size" -DSORT="$sort" -lm external_sort.c -o apps/app_external_"$size"_"$method".exe
