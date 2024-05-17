@@ -5,8 +5,8 @@ SORTS="0 1 2"
 path_to_script=$(dirname "$(readlink -f "$0")")
 
 # Проверка на существование переменной
-if [[ ! -d "apps" ]]; then
-    mkdir "apps"
+if [[ ! -d "${path_to_script}/apps" ]]; then
+    mkdir "${path_to_script}/apps"
 else
     rm -rf "${path_to_script}/apps/*.exe"
 fi

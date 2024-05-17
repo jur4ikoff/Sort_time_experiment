@@ -6,8 +6,8 @@
 #include <string.h>
 #include <math.h>
 
-#define MIN_ITTERATIONS 20
-#define MAX_ITTERATIONS 1000
+#define MIN_ITERATIONS 20
+#define MAX_ITERATIONS 1000
 
 #ifndef SIZE
 // #define SIZE 1000
@@ -89,7 +89,7 @@ int main(void)
     int count = 0;
     generate_array(array, SIZE);
 
-    while (count < MAX_ITTERATIONS)
+    while (count < MAX_ITERATIONS)
     {
         if (SORT == 0)
         {
@@ -118,7 +118,7 @@ int main(void)
         RSE = sqrt(dispersion) * 100 / (sqrt(count * (count - 1)) * t_avg);
         printf("%f\n", RSE);
 
-        if (RSE < 1 && count > MIN_ITTERATIONS)
+        if (RSE < 1 && count > MIN_ITERATIONS)
             break;
     }
     printf("%d %.2f, %d, %f\n", SIZE, t_avg, count, RSE);
