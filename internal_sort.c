@@ -81,8 +81,6 @@ void bubble_sort_3(int *array, size_t len)
     }
 }
 
-// double calculate_rse()
-
 int main(void)
 {
     int array[SIZE];
@@ -129,5 +127,3 @@ int main(void)
 
     return 0;
 }
-
-// sqrt(sum((t - tavg)**2)) // (sqrt(n * (n - 1)) * tavg)
