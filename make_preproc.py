@@ -36,7 +36,8 @@ for file in files:
         continue
     size = extract_file_size(file)
     experiment = strcspn(file, "_")
-    stats_filename = file[:experiment] + "_" + file[experiment + 2 + len(str(size)) :]
+    stats_filename = file[:experiment] + "_" + \
+        file[experiment + 2 + len(str(size)):]
 
     data = []
     count = 0
@@ -53,11 +54,17 @@ for file in files:
     median = statistics.median(data)
     max_value = max(data)
     min_value = min(data)
-    data = [1, 2, 3, 4, 5, 6, 7]
+    data = [1, 2, 3, 4, 5, 6, 7, 8]
     count = len(data)
-    
-    q1 = statistics.median(data[: (count // 2)])
-    q3 = statistics.median(data[(count // 2):])
+
+    if count % 2 == 0:
+        q1 = statistics.median(data[: (count // 2)])
+        q3 = statistics.median(data[(count // 2):])
+    else:
+        q1 = statistics.median(data[: (count // 2)])
+        q3 = statistics.median(data[(count // 2) + 1:])
+    # q1 = statistics.median(data[: (count // 2)])
+    # q3 = statistics.median(data[(count // 2):])
 
     # with open("path_to_files + "sort_data/" + stats_filename, "a") as f:
     #    pass
