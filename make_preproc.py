@@ -55,13 +55,28 @@ def collect_data(file):
     return data, count
 
 
+def sort_strings(strings: list) -> list:
+    data = []
+    for i in strings:
+        temp = list(map(float, i.strip().split(" ")))
+        temp[0] = int(temp[0])
+        data.append(temp)
+
+    data.sort(key=lambda x: x[0])
+    output = []
+    for i in data:
+        string = " ".join(map(str, i)) + "\n"
+        output.append(string)
+    return output
+
+
 def make_file_unique(filename):
     # Удаление дубликатов из файла
     with open(filename, "r") as file:
         lines = file.readlines()
 
     unique_lines = set(lines)
-
+    unique_lines = sort_strings(list(unique_lines))
     with open(filename, "w") as file:
         for line in unique_lines:
             file.write(line)
@@ -69,7 +84,7 @@ def make_file_unique(filename):
 
 # Получение путя к файлам и названий файлов
 path_to_files = os.path.dirname(os.path.abspath(__file__)) + "/"
-files = os.listdir(path_to_files + '/data/')
+files = os.listdir(path_to_files + "/data/")
 
 if not (os.path.exists(f"{path_to_files}/proceed_data/")):
     os.mkdir(f"{path_to_files}proceed_data/")
@@ -101,7 +116,6 @@ for file in files:
     # Запись статистики в файл
     output_file = path_to_files + "proceed_data/" + stats_filename
     string_to_output = f"{size} {average} {median} {min_value} {max_value} {q1} {q3}\n"
-
     with open(output_file, "a+") as f:
         f.write(string_to_output)  # Добавляем статистику в конец файла
 

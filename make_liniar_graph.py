@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 
 
 def create_liniar_graph(path_to_file):
-    print(path_to_file)
     times, sizes = [], []
     with open(path_to_file, "r") as f:
         while True:
@@ -14,13 +13,19 @@ def create_liniar_graph(path_to_file):
             sizes.append(int(line[0]))
             times.append(float(line[1]))
 
-    sizes.sort()
-    times.sort()
+    name = os.path.basename(path_to_file).split(".")[0]
 
     # Построение линейно-кусочного графика
+    plt.subplots()
     plt.plot(sizes, times, "o-")
+    plt.xticks(sizes[::2] + [sizes[-1]])
     plt.xlabel("Размер")
     plt.ylabel("Время")
-    plt.title("График зависимости размера от времени")
+    plt.title(f"График зависимости размера от времени сортировки {name}")
     plt.grid(True)
-    plt.show()
+    # plt.show()
+
+    plt.savefig(f"./charts/liniar_{name}.svg", format="svg")
+
+
+# plt.savefig(f'linear_{s}.svg', format='svg')
