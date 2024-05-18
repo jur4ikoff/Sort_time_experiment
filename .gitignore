@@ -10,3 +10,4 @@ test*.txt
 test*.txt
 *gcov
 data/
+__pycache__

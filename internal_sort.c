@@ -5,7 +5,7 @@
 #include <string.h>
 #include <math.h>
 #define SUCCESS_OUTPUT 0
-#define MIN_ITERATIONS 20
+#define MIN_ITERATIONS 15
 #define MAX_ITERATIONS 2000
 
 #ifndef SIZE
