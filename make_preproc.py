@@ -68,11 +68,11 @@ def make_file_unique(filename):
 
 
 # Получение путя к файлам и названий файлов
-path_to_files = os.path.dirname(os.path.abspath(__file__)) + "/data/"
-files = os.listdir(path_to_files)
+path_to_files = os.path.dirname(os.path.abspath(__file__)) + "/"
+files = os.listdir(path_to_files + '/data/')
 
-if not (os.path.exists(f"{path_to_files}/sort_data/")):
-    os.mkdir(f"{path_to_files}/sort_data/")
+if not (os.path.exists(f"{path_to_files}/proceed_data/")):
+    os.mkdir(f"{path_to_files}proceed_data/")
 
 # Перебираем все файлы в папке data
 for file in files:
@@ -84,8 +84,7 @@ for file in files:
     stats_filename = file[:experiment] + "_" + file[experiment + 2 + len(str(size)) :]
 
     # Получение массива времени
-    data, count = collect_data(path_to_files + file)
-
+    data, count = collect_data(path_to_files + "data/" + file)
     # Сбор статистики
     average = statistics.mean(data)
     median = statistics.median(data)
@@ -100,7 +99,7 @@ for file in files:
         q3 = statistics.median(data[(count // 2) + 1 :])
 
     # Запись статистики в файл
-    output_file = path_to_files + "sort_data/" + stats_filename
+    output_file = path_to_files + "proceed_data/" + stats_filename
     string_to_output = f"{size} {average} {median} {min_value} {max_value} {q1} {q3}\n"
 
     with open(output_file, "a+") as f:
