@@ -11,6 +11,7 @@ for app in "$path_to_script"/apps/*.exe; do
     base=$(basename "$app")
     experiment=${base#app_}
     experiment=${experiment%.exe}
+    echo -n -e "calculate file: $experiment \r"
     if [[ $experiment == internal* ]]; then
         "$app" >>"${path_to_script}/data/$experiment.txt"
     elif [[ $experiment == external* ]]; then

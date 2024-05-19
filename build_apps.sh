@@ -1,7 +1,13 @@
 #!/bin/bash
 # Инициализация переменных
-SIZES="1000 2000 3000 4000 5000 6000 7000 8000 9000 10000"
-SORTS="0 1 2"
+if [[ $# != 2 ]]; then
+    echo "Input only two paramentrs"
+    exit 1
+fi
+
+SIZES=$1
+SORTS=$2
+
 path_to_script=$(dirname "$(readlink -f "$0")")
 
 # Проверка на существование переменной
