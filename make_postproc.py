@@ -7,7 +7,5 @@ if not (os.path.exists(f"{path_to_files}/charts/")):
     os.mkdir(f"{path_to_files}/charts/")
 
 files = os.listdir(path_to_files + "/proceed_data/")
-
-for file in files:
-    # print(file)
-    create_liniar_graph(f"{path_to_files}/proceed_data/{file}")
+create_liniar_graph(f"{path_to_files}/proceed_data/", "internal")
+create_liniar_graph(f"{path_to_files}/proceed_data/", "external")

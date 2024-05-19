@@ -77,6 +77,7 @@ def make_file_unique(filename):
 
     unique_lines = set(lines)
     unique_lines = sort_strings(list(unique_lines))
+
     with open(filename, "w") as file:
         for line in unique_lines:
             file.write(line)
@@ -120,3 +121,4 @@ for file in files:
         f.write(string_to_output)  # Добавляем статистику в конец файла
 
     make_file_unique(output_file)
+    break
