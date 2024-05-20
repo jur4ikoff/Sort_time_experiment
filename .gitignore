@@ -10,5 +10,5 @@ test*.txt
 test*.txt
 *gcov
 data/
-__pycache__
 proceed_data/
+__pycache__

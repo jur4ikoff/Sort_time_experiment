@@ -20,7 +20,9 @@ for app in "$path_to_script"/apps/*.exe; do
         res=1
         while [ "$res" != 0 ]; do
             "$app" >>"${path_to_script}/data/$experiment.txt"
-            res=$(python3 "${path_to_script}/"calculate_rse.py "${path_to_script}/data/$experiment.txt")
+            res=$(python3 "${path_to_script}/scripts/calculate_rse.py" "${path_to_script}/data/$experiment.txt")
         done
+    elif [[ $experiment == ticks* ]]; then
+        "$app" >>"${path_to_script}/data/$experiment.txt"
     fi
 done

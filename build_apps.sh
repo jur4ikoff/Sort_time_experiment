@@ -10,7 +10,7 @@ SORTS=$2
 
 path_to_script=$(dirname "$(readlink -f "$0")")
 
-# Проверка на существование переменной
+# Проверка на существование переменной и удаление старых файлов
 if [[ ! -d "${path_to_script}/apps" ]]; then
     mkdir "${path_to_script}/apps"
 else

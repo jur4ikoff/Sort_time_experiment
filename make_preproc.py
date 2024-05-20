@@ -89,41 +89,50 @@ def make_file_unique(filename):
             file.write(line)
 
 
-# Получение путя к файлам и названий файлов
-path_to_files = os.path.dirname(os.path.abspath(__file__)) + "/"
-files = os.listdir(path_to_files + "/data/")
+def main():
+    # Получение путя к файлам и названий файлов
+    path_to_files = os.path.dirname(os.path.abspath(__file__)) + "/"
+    files = os.listdir(path_to_files + "/data/")
 
-if not (os.path.exists(f"{path_to_files}/proceed_data/")):
-    os.mkdir(f"{path_to_files}proceed_data/")
+    if not (os.path.exists(f"{path_to_files}/proceed_data/")):
+        os.mkdir(f"{path_to_files}proceed_data/")
 
-# Перебираем все файлы в папке data
-for file in files:
-    if not file.endswith(".txt"):
-        continue
+    # Перебираем все файлы в папке data
+    for file in files:
+        if not file.endswith(".txt"):
+            continue
 
-    size = extract_file_size(file)
-    experiment = strcspn(file, "_")
-    stats_filename = file[:experiment] + "_" + file[experiment + 2 + len(str(size)) :]
+        size = extract_file_size(file)
+        experiment = strcspn(file, "_")
+        stats_filename = (
+            file[:experiment] + "_" + file[experiment + 2 + len(str(size)) :]
+        )
 
-    # Получение массива времени
-    data, count = collect_data(path_to_files + "data/" + file)
-    # Сбор статистики
-    average = statistics.mean(data)
-    median = statistics.median(data)
-    max_value = max(data)
-    min_value = min(data)
-    data.sort()
-    if count % 2 == 0:
-        q1 = statistics.median(data[: (count // 2)])
-        q3 = statistics.median(data[(count // 2) :])
-    else:
-        q1 = statistics.median(data[: (count // 2)])
-        q3 = statistics.median(data[(count // 2) + 1 :])
+        # Получение массива времени
+        data, count = collect_data(path_to_files + "data/" + file)
+        # Сбор статистики
+        average = statistics.mean(data)
+        median = statistics.median(data)
+        max_value = max(data)
+        min_value = min(data)
+        data.sort()
+        if count % 2 == 0:
+            q1 = statistics.median(data[: (count // 2)])
+            q3 = statistics.median(data[(count // 2) :])
+        else:
+            q1 = statistics.median(data[: (count // 2)])
+            q3 = statistics.median(data[(count // 2) + 1 :])
 
-    # Запись статистики в файл
-    output_file = path_to_files + "proceed_data/" + stats_filename
-    string_to_output = f"{size} {average} {median} {min_value} {max_value} {q1} {q3}\n"
-    with open(output_file, "a+") as f:
-        f.write(string_to_output)  # Добавляем статистику в конец файла
+        # Запись статистики в файл
+        output_file = path_to_files + "proceed_data/" + stats_filename
+        string_to_output = (
+            f"{size} {average} {median} {min_value} {max_value} {q1} {q3}\n"
+        )
+        with open(output_file, "a+") as f:
+            f.write(string_to_output)  # Добавляем статистику в конец файла
 
-    make_file_unique(output_file)
+        make_file_unique(output_file)
+
+
+if __name__ == "__main__":
+    main()

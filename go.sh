@@ -9,5 +9,7 @@ SIZES=$1
 SORTS=$2
 
 echo "experiment with sizes: $SIZES sorts_typs: $SORTS"
-./build_apps "{$SIZES}" "{$SORTS}"
-
+./build_apps.sh "${SIZES}" "${SORTS}"
+./update_data.sh
+python3 ./make_preproc.py
+python3 ./make_postproc.py
