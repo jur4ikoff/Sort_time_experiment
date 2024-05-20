@@ -128,6 +128,7 @@ def main():
         string_to_output = (
             f"{size} {average} {median} {min_value} {max_value} {q1} {q3}\n"
         )
+        # print(stats_filename, size, average, count, calc_rse(data, count))
         with open(output_file, "a+") as f:
             f.write(string_to_output)  # Добавляем статистику в конец файла
 

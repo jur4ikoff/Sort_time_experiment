@@ -66,7 +66,7 @@ def create_liniar_graph_with_error(path_to_file):
         plt.plot(sizes, times, marker="o", linewidth=1, markersize=4)
         plt.plot(sizes, mins, marker="o", linewidth=1, markersize=4)
         plt.plot(sizes, maxs, marker="o", linewidth=1, markersize=4)
-        plt.xticks(sizes[::2])
+        plt.xticks(sizes)
         plt.xlabel("Размер сортируемого массива")
         plt.ylabel("Время в наносекундах")
         plt.title(f"График с ошибкой. Метод измерения: {name}")
