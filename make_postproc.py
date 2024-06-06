@@ -37,7 +37,7 @@ def create_liniar_graph(path_to_file, calculate_method):
             # plt.subplots()
             data = [sizes, times]
             plt.plot(sizes, times, marker="o", linewidth=1, markersize=4)
-            plt.xticks(sizes[::2])
+            plt.xticks(sizes)
             plt.xlabel("Размер сортируемого массива")
             plt.ylabel("Время в наносекундах")
             plt.title(
@@ -59,6 +59,7 @@ def create_liniar_graph_with_error(path_to_file):
             if not line:
                 break
             line = line.strip().split()
+            # Заглушка, чтобы график получился "ровным"
             sizes.append(int(line[0]))
             times.append(float(line[1]))
             mins.append(float(line[3]))
@@ -68,9 +69,9 @@ def create_liniar_graph_with_error(path_to_file):
         name = os.path.basename(path_to_file).split(".")[0]
         plt.plot(sizes, times, marker="o", linewidth=1, markersize=3)
 
-        plt.scatter(sizes, maxs, color="red", marker="*", s=3)
-        plt.scatter(sizes, mins, color="green", marker="*", s=3)
         plt.vlines(sizes, mins, maxs, colors="orange", linewidth=2)
+        plt.scatter(sizes, maxs, color="red", marker="*", s=5)
+        plt.scatter(sizes, mins, color="green", marker="*", s=5)
 
         calculate_method = name[:8]
         if "sort_1" in name:
@@ -92,53 +93,8 @@ def create_liniar_graph_with_error(path_to_file):
         plt.savefig(f"./charts/line_error_{name}.svg", format="svg")
 
 
-"""
 def create_moustache_graph(path_to_file):
-    plt.figure(figsize=(20, 10))
-
-    with open(path_to_file, "r") as file:
-        sizes, times = [], []
-        for line in file:
-            values = [float(value) for value in line.strip().split()]
-            size = values[0]
-            time, median, min_value, max_value, q1, q3 = values[1:]
-
-            sizes.append(size)
-            times.append(time)
-
-            plt.vlines(size, min_value, max_value, colors="orange", linewidth=1)
-            # plt.scatter(size, time, marker='o', s=6)
-            plt.scatter(size, max_value, color="blue", marker="*", s=2)
-            plt.scatter(size, min_value, color="blue", marker="*", s=2)
-            plt.scatter(size, q1, color="orange", marker="o", s=2)
-            plt.scatter(size, median, color="orange", marker="o", s=2)
-            plt.scatter(size, q3, color="orange", marker="o", s=2)
-
-        plt.plot(
-            sizes,
-            times,
-            label="avg_time",
-            color="blue",
-            linewidth=1,
-            marker="o",
-            markersize=1,
-        )
-
-    plt.yticks(times)
-    plt.xticks(sizes)
-    plt.title(f"График с усами")
-    plt.xlabel("Размер сортируемого массива")
-    plt.ylabel("Время в наносекундах")
-    plt.grid(True)
-    plt.legend(["size", "median", "q1", "q3", "min", "max"])
-    plt.savefig(
-        f"./charts/moustache_{os.path.basename(path_to_file)}.svg", format="svg"
-    )
-"""
-
-
-def create_moustache_graph(path_to_file):
-    plt.figure(figsize=(15, 8))
+    plt.figure(figsize=(14, 20))
     df = []
     sizes = []
     means = []
@@ -158,6 +114,8 @@ def create_moustache_graph(path_to_file):
                 float(line[5]),
                 float(line[6]),
             )
+            if size > 10000:
+                break
             sizes.append(size)
             means.append(mean)
             df.append([min_value, q1, median, q3, max_value])
@@ -165,7 +123,7 @@ def create_moustache_graph(path_to_file):
         plt.boxplot(
             df,
             positions=sizes,
-            widths=350,
+            widths=300,
             whis=10**6,
             manage_ticks=False,
         )
@@ -179,7 +137,7 @@ def create_moustache_graph(path_to_file):
         elif "sort_3" in name:
             sort_method = "Указатели"
 
-        plt.plot(sizes, means, color="orange")
+        plt.plot(sizes, means, color="blue")
         plt.xticks(sizes)
         plt.yticks(means)
         plt.xlabel("Размер сортируемого массива")
@@ -201,21 +159,21 @@ def main(path_to_files):
         os.mkdir(f"{path_to_files}/charts/")
 
     files = os.listdir(path_to_files + "/proceed_data/")
-    # create_liniar_graph(f"{path_to_files}/proceed_data/", "internal")
-    # create_liniar_graph(f"{path_to_files}/proceed_data/", "external")
+    create_liniar_graph(f"{path_to_files}/proceed_data/", "internal")
+    create_liniar_graph(f"{path_to_files}/proceed_data/", "external")
+    create_liniar_graph(f"{path_to_files}/proceed_data/", "ticks")
 
-    # for file in files:
-    #    if "ticks" in file:
-    #        continue
-    #    full_path = f"{path_to_files}/proceed_data/{file}"
-    #    create_liniar_graph_with_error(full_path)
+    for file in files:
+        if "ticks" in file:
+            continue
+        full_path = f"{path_to_files}/proceed_data/{file}"
+        create_liniar_graph_with_error(full_path)
 
     for file in files:
         if "ticks" in file:
             continue
         full_path = f"{path_to_files}/proceed_data/{file}"
         create_moustache_graph(full_path)
-        break
 
 
 if __name__ == "__main__":
